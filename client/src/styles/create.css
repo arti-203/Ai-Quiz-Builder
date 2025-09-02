@@ -1,0 +1,55 @@
+.create-quiz-background {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-image: url('https://static.vecteezy.com/system/resources/previews/006/322/620/non_2x/digital-technology-face-artificial-intelligence-free-vector.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: brightness(0.8);
+}
+
+.quiz-form {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.quiz-form h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 0.8rem 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.quiz-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1e90ff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.quiz-form button:hover {
+  background-color: #0059b3;
+}

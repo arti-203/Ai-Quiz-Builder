@@ -1,0 +1,25 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+
+.create-quiz-page {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-image: url('https://static.vecteezy.com/system/resources/previews/007/079/843/non_2x/artificial-intelligence-in-the-human-head-ai-digital-brain-big-data-analytics-face-of-cyber-mind-vector.jpg');
+  background-size: cover; /* Makes sure it fills the screen */
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+
+
+  

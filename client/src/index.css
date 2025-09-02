@@ -1,0 +1,276 @@
+
+:root {
+  --primary: #4361ee;
+  --secondary: #3f37c9;
+  --success: #4cc9f0;
+  --danger: #f72585;
+  --warning: #f8961e;
+  --info: #4895ef;
+  --light: #f8f9fa;
+  --dark: #212529;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #f5f7fb;
+  color: #333;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: var(--secondary);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.btn-new {
+  display: inline-block;
+  background-color: var(--success);
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+}
+
+/* Quiz Components */
+.quiz-creator, .join-quiz, .live-quiz, .quiz-interface {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.quiz-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.question-container {
+  margin-bottom: 2rem;
+}
+
+.question-text {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.option {
+  border: 2px solid #ccc;
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.option.clickable { cursor: pointer; }  
+
+.option:hover {
+  background-color: #201dd8e3;
+}
+
+.option.selected,
+.option.selected:hover {
+  background-color: #e0f0ff;
+  border-color: #007bff;
+}
+
+.option.correct,
+.option.correct:hover {
+  background-color: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.option.incorrect,
+.option.incorrect:hover {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.option-letter {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+
+.countdown-timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.quiz-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+/* Results */
+.results-container {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.overall-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: #f8f9fa;
+  flex: 1;
+  margin: 0 0.5rem;
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.questions-analysis {
+  margin: 2rem 0;
+}
+
+.question-analysis {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.answer-distribution {
+  margin-top: 1rem;
+}
+
+.option-distribution {
+  margin-bottom: 0.5rem;
+}
+
+.option-header {
+  display: flex;
+  align-items: center;
+}
+
+.correct-indicator {
+  color: #10b981;
+  margin-left: 0.5rem;
+}
+
+.distribution-bar-container {
+  width: 100%;
+  background: #f1f1f1;
+  border-radius: 4px;
+  height: 24px;
+  margin-top: 0.25rem;
+}
+
+.distribution-bar {
+  height: 100%;
+  border-radius: 4px;
+  background-color: var(--info);
+  color: white;
+  text-align: right;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  line-height: 24px;
+  min-width: 40px;
+}
+
+.distribution-bar.correct {
+  background-color: #10b981;
+}
+
+.leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.leaderboard th, .leaderboard td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.leaderboard th {
+  background-color: #f8f9fa;
+}
+
+/* Utility Classes */
+.error-message {
+  color: var(--danger);
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #fce7f3;
+  border-radius: 4px;
+}
+
+.live-status {
+  color: var(--success);
+  font-weight: bold;
+}
