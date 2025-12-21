@@ -4,7 +4,9 @@ import axios from 'axios';
 
 // Fix: Base URL 
 const API = axios.create({ 
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000'
+   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000'
+ // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 });
 
 // response interceptors for debugging
