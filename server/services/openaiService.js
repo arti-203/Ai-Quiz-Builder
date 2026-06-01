@@ -1,316 +1,89 @@
-// const { Configuration, OpenAIApi } = require('openai');
-// const configuration = new Configuration({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-// const openai = new OpenAIApi(configuration);
+const fetch = require('node-fetch');
 
-// // Generate quiz questions using OpenAI
-// exports.generateQuizQuestions = async (topic, count = 5) => {
-//   try {
-//     const prompt = `Generate ${count} multiple-choice quiz questions about ${topic}. 
-//     Format each question as JSON object with:
-//     - "text": the question
-//     - "options": array of 4 strings (choices)
-//     - "correctAnswer": number (0-3) indicating correct option
-//     - "explanation": brief explanation
-    
-//     Return a JSON array of these objects. Example:
-//     [
-//       {
-//         "text": "What is the capital of France?",
-//         "options": ["London", "Berlin", "Paris", "Madrid"],
-//         "correctAnswer": 2,
-//         "explanation": "Paris is the capital of France."
-//       }
-//     ]`;
-
-//     const response = await openai.createChatCompletion({
-//       model: "gpt-3.5-turbo",
-//       messages: [
-//         { 
-//           role: "system", 
-//           content: "You are an expert quiz generator. Return only valid JSON." 
-//         },
-//         { 
-//           role: "user", 
-//           content: prompt 
-//         }
-//       ],
-//       temperature: 0.7,
-//       max_tokens: 2000
-//     });
-
-//     const content = response.data.choices[0].message.content;
-//     const questions = JSON.parse(content);
-    
-//     // Validate the structure
-//     if (!Array.isArray(questions) || questions.length === 0) {
-//       throw new Error('Invalid question format from AI');
-//     }
-    
-//     return questions;
-//   } catch (error) {
-//     console.error('OpenAI API Error:', error);
-//     throw new Error('Failed to generate questions with AI');
-//   }
-// };
-
-// server/services/openaiService.js
-// const OpenAI = require('openai');
-
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-
-// exports.generateQuizQuestions = async (topic, count = 5) => {
-//   try {
-//     const prompt = `Generate ${count} multiple-choice quiz questions about ${topic}. 
-//     Format each question as a JSON object with:
-//     - "text": the question
-//     - "options": array of 4 strings (choices)
-//     - "correctAnswer": number (0-3) indicating correct option
-//     - "explanation": brief explanation
-    
-//     Return a JSON array of these objects.`;
-
-//     const response = await openai.chat.completions.create({
-//       model: "gpt-3.5-turbo",
-//       messages: [
-//         {
-//           role: "system",
-//           content: "You are an expert quiz generator. Return only valid JSON."
-//         },
-//         {
-//           role: "user",
-//           content: prompt
-//         }
-//       ],
-//       temperature: 0.7,
-//       max_tokens: 2000
-//     });
-
-//     const content = response.choices[0].message.content;
-//     const questions = JSON.parse(content);
-
-//     if (!Array.isArray(questions) || questions.length === 0) {
-//       throw new Error('Invalid question format from AI');
-//     }
-
-//     return questions;
-//   } catch (error) {
-//     console.error('OpenAI API Error:', error.message);
-//     throw new Error('Failed to generate questions with AI');
-//   }
-// };
-
-
-// const OpenAI = require('openai');
-
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-
-// /**
-//  * Generate quiz questions from OpenAI
-//  */
-// exports.generateQuizQuestions = async (topic, count = 5) => {
-//   try {
-//     const prompt = `Generate ${count} multiple-choice quiz questions about "${topic}". 
-// Format each question as a JSON object with:
-// - "text": the question
-// - "options": array of 4 strings (choices)
-// - "correctAnswer": number (0-3) indicating the correct option
-// - "explanation": a brief explanation
-    
-// Return a valid JSON array of these objects ONLY, without extra text or comments.`;
-
-//     const response = await openai.chat.completions.create({
-//       model: "gpt-3.5-turbo",
-//       messages: [
-//         {
-//           role: "system",
-//           content: "You are an expert quiz generator. Return only valid JSON in array format."
-//         },
-//         {
-//           role: "user",
-//           content: prompt
-//         }
-//       ],
-//       temperature: 0.7,
-//       max_tokens: 2000
-//     });
-
-//     const rawContent = response.choices[0]?.message?.content;
-
-//     if (!rawContent) {
-//       throw new Error("Empty response from OpenAI.");
-//     }
-
-//     // Attempt to extract only JSON content
-//     const jsonStart = rawContent.indexOf('[');
-//     const jsonEnd = rawContent.lastIndexOf(']');
-//     if (jsonStart === -1 || jsonEnd === -1) {
-//       throw new Error("Response does not contain a valid JSON array.");
-//     }
-
-//     const jsonString = rawContent.substring(jsonStart, jsonEnd + 1);
-//     const questions = JSON.parse(jsonString);
-
-//     // Basic validation
-//     if (!Array.isArray(questions) || questions.length === 0) {
-//       throw new Error("Invalid format: expected non-empty array");
-//     }
-
-//     questions.forEach((q, i) => {
-//       if (
-//         typeof q.text !== 'string' ||
-//         !Array.isArray(q.options) ||
-//         typeof q.correctAnswer !== 'number'
-//       ) {
-//         throw new Error(`Question ${i + 1} has invalid structure`);
-//       }
-//     });
-
-//     return questions;
-//   } catch (error) {
-//     console.error("OpenAI API Error:", error.message);
-//     throw new Error("Failed to generate questions with AI");
-//   }
-// };
-
-
-
-
-// const OpenAI = require('openai');
-
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-//   baseURL: "https://openrouter.ai/api/v1", // ✅ REQUIRED
-// });
-
-// /**
-//  * Generate quiz questions using OpenAI
-//  */
-// exports.generateQuizQuestions = async (topic, count = 5) => {
-//   try {
-//     const prompt = `Generate ${count} multiple-choice quiz questions about "${topic}". 
-// Format each question as a JSON object with:
-// - "text": the question
-// - "options": array of 4 strings (choices)
-// - "correctAnswer": number (0-3) indicating the correct option
-// - "explanation": a brief explanation
-
-// Return a valid JSON array of these objects ONLY, without extra text or comments.`;
-
-//     const response = await openai.chat.completions.create({
-//       model: "gpt-3.5-turbo",
-//      // model: "openrouter/openai/gpt-3.5-turbo", // ✅ FIXED
-//       messages: [
-//         {
-//           role: "system",
-//           content: "You are an expert quiz generator. Return only valid JSON in array format."
-//         },
-//         {
-//           role: "user",
-//           content: prompt
-//         }
-//       ],
-//       temperature: 0.7,
-//       max_tokens: 2000,
-//     });
-
-//     const rawContent = response.choices?.[0]?.message?.content;
-
-//     if (!rawContent) {
-//       throw new Error("Empty response from OpenAI.");
-//     }
-
-//     console.log("🧠 Raw AI response:", rawContent); // helpful for debugging
-
-//     // Try to extract JSON array
-//     const jsonStart = rawContent.indexOf('[');
-//     const jsonEnd = rawContent.lastIndexOf(']');
-//     if (jsonStart === -1 || jsonEnd === -1) {
-//       throw new Error("Response does not contain a valid JSON array.");
-//     }
-
-//     const jsonString = rawContent.substring(jsonStart, jsonEnd + 1);
-
-//     const questions = JSON.parse(jsonString);
-
-//     // Validate structure
-//     if (!Array.isArray(questions) || questions.length === 0) {
-//       throw new Error("Invalid format: expected non-empty array");
-//     }
-
-//     questions.forEach((q, i) => {
-//       if (
-//         typeof q.text !== 'string' ||
-//         !Array.isArray(q.options) ||
-//         typeof q.correctAnswer !== 'number'
-//       ) {
-//         throw new Error(`Question ${i + 1} has invalid structure`);
-//       }
-//     });
-
-//     return questions;
-//   } catch (error) {
-//     console.error("❌ OpenAI Quiz Generation Failed:", error);
-//     throw new Error("Failed to generate questions with AI");
-//   }
-// };
-
-
-
-// server/services/openaiService.js
-const axios = require("axios");
-
-exports.generateQuizQuestions = async (topic, count = 5) => {
+exports.generateQuizQuestions = async (topic, questionCount) => {
   try {
-    const prompt = `Generate ${count} multiple-choice quiz questions about "${topic}". 
-Format each question as a JSON object with:
-- "text": the question
-- "options": array of 4 strings (choices)
-- "correctAnswer": number (0-3) indicating the correct option
-- "explanation": a brief explanation
-    
-Return a valid JSON array of these objects ONLY, without extra text or comments.`;
+    const openRouterApiKey = process.env.OPENROUTER_API_KEY;
 
-    const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
-      {
-        model: "openai/gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: "You are an expert quiz generator. Return only valid JSON in array format."
-          },
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000
+    if (!openRouterApiKey) {
+      throw new Error('Missing OPENROUTER_API_KEY');
+    }
+
+    console.log('Calling OpenRouter API...');
+
+    const prompt = `
+Generate exactly ${questionCount} multiple-choice questions on the topic "${topic}".
+
+Each question MUST follow this JSON format:
+
+{
+  "text": "...",
+  "options": ["A", "B", "C", "D"],
+  "correctAnswer": 0,
+  "explanation": "..."
+}
+
+Rules:
+- Always return valid JSON only.
+- No markdown.
+- No extra text.
+- Exactly 4 options.
+- "correctAnswer" must be a number between 0-3.
+- All questions must be different.
+`;
+
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${openRouterApiKey}`,
+        'Content-Type': 'application/json',
       },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, // your OpenRouter key
-          "Content-Type": "application/json"
-        }
-      }
+      body: JSON.stringify({
+        model: 'openai/gpt-4o-mini',
+        messages: [
+          { role: 'system', content: 'You generate structured quiz questions.' },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: 2000,
+        temperature: 0.7,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.error('AI Error:', data);
+      throw new Error('AI request failed');
+    }
+
+    let raw = data.choices[0].message.content.trim();
+    raw = raw.replace(/```json|```/g, '').trim();
+
+    let questions;
+
+    try {
+      questions = JSON.parse(raw);
+    } catch (error) {
+      console.error('JSON Parse Error:', error);
+      throw new Error('Failed to parse AI JSON');
+    }
+
+    const valid = Array.isArray(questions) && questions.every((question) =>
+      question.text &&
+      question.options &&
+      question.options.length === 4 &&
+      typeof question.correctAnswer === 'number' &&
+      question.correctAnswer >= 0 &&
+      question.correctAnswer <= 3 &&
+      question.explanation
     );
 
-    const rawContent = response.data.choices[0]?.message?.content;
-
-    const jsonStart = rawContent.indexOf("[");
-    const jsonEnd = rawContent.lastIndexOf("]");
-    const jsonString = rawContent.substring(jsonStart, jsonEnd + 1);
-    const questions = JSON.parse(jsonString);
+    if (!valid) {
+      throw new Error('Invalid question format from AI.');
+    }
 
     return questions;
   } catch (error) {
-    console.error("❌ OpenAI Quiz Generation Failed:", error.response?.data || error.message);
-    throw new Error("Failed to generate questions with AI");
+    console.error('AI Generation Failed:', error);
+    throw error;
   }
 };
