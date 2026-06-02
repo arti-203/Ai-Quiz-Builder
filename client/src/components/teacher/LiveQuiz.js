@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSocket } from '../../contexts/SocketContext';
 import { getQuiz, startQuiz } from '../../services/api';
@@ -16,7 +15,6 @@ export default function LiveQuiz() {
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30);
 
-  // Fetch quiz data
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
@@ -35,7 +33,6 @@ export default function LiveQuiz() {
     fetchQuiz();
   }, [id, socket]);
 
-  // Start quiz
   const startQuizHandler = async () => {
     try {
       await startQuiz(id);
@@ -46,52 +43,33 @@ export default function LiveQuiz() {
     }
   };
 
-  // Go to next question
-  const nextQuestion = () => {
-    if (currentQuestion < quiz.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setTimeLeft(30); // reset timer
-      socket.emit('NEW_QUESTION', {
-        roomCode: quiz.roomCode,
-        questionIndex: currentQuestion + 1
-      });
-    } else {
-      endQuiz();
-    }
+  const endQuiz = () => {
+    setShowResults(true);
+    socket.emit('QUIZ_ENDED', { roomCode: quiz.roomCode });
   };
 
-  // End current question
+  const nextQuestion = () => {
+    if (currentQuestion < quiz.questions.length - 1) {
+      const nextQuestionIndex = currentQuestion + 1;
+
+      setCurrentQuestion(nextQuestionIndex);
+      setTimeLeft(30);
+      socket.emit('NEW_QUESTION', {
+        roomCode: quiz.roomCode,
+        questionIndex: nextQuestionIndex
+      });
+      return;
+    }
+
+    endQuiz();
+  };
+
   const endQuestion = () => {
     socket.emit('QUESTION_CLOSED', {
       roomCode: quiz.roomCode,
       questionIndex: currentQuestion
     });
   };
-
-  // End entire quiz
-  const endQuiz = () => {
-    setShowResults(true);
-    socket.emit('QUIZ_ENDED', { roomCode: quiz.roomCode });
-  };
-
-  // ⏳ Automatically move to next question when timer ends
-  useEffect(() => {
-    if (timeLeft === 0) {
-      endQuestion();
-      setTimeout(() => {
-        nextQuestion();
-      }, 1000); // small delay before moving to next
-    }
-  }, [timeLeft]);
-
-//   useEffect(() => {
-//   if (timeLeft === 0) {
-//     endQuestion();
-//     setTimeout(() => {
-//       nextQuestion();
-//     }, 1000);
-//   }
-// }, [timeLeft, endQuestion, nextQuestion]);
 
   if (!quiz) return <div>Loading quiz...</div>;
 
@@ -125,7 +103,7 @@ export default function LiveQuiz() {
               setTimeLeft={setTimeLeft}
               onEnd={() => {
                 endQuestion();
-                nextQuestion(); // ✅ Auto move on countdown end
+                nextQuestion();
               }}
             />
           </div>
@@ -149,4 +127,3 @@ export default function LiveQuiz() {
     </div>
   );
 }
-
