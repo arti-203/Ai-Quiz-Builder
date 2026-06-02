@@ -75,23 +75,23 @@ export default function LiveQuiz() {
   };
 
   // ⏳ Automatically move to next question when timer ends
-  // useEffect(() => {
-  //   if (timeLeft === 0) {
-  //     endQuestion();
-  //     setTimeout(() => {
-  //       nextQuestion();
-  //     }, 1000); // small delay before moving to next
-  //   }
-  // }, [timeLeft]);
-
   useEffect(() => {
-  if (timeLeft === 0) {
-    endQuestion();
-    setTimeout(() => {
-      nextQuestion();
-    }, 1000);
-  }
-}, [timeLeft, endQuestion, nextQuestion]);
+    if (timeLeft === 0) {
+      endQuestion();
+      setTimeout(() => {
+        nextQuestion();
+      }, 1000); // small delay before moving to next
+    }
+  }, [timeLeft]);
+
+//   useEffect(() => {
+//   if (timeLeft === 0) {
+//     endQuestion();
+//     setTimeout(() => {
+//       nextQuestion();
+//     }, 1000);
+//   }
+// }, [timeLeft, endQuestion, nextQuestion]);
 
   if (!quiz) return <div>Loading quiz...</div>;
 
